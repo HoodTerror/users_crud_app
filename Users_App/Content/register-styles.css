@@ -1,0 +1,25 @@
+﻿form {
+    font-size: 15px;
+}
+
+fieldset {
+    width: 400px;
+    background-color: darkslategray;
+}
+
+legend {
+    color: white;
+}
+
+select, input[type="text"], input[type="password"] {
+    width: 165px;
+    height: 22px;
+    border: none;
+}
+
+.field-validation-error {
+    display: inline-block;
+    font-size: 13px;
+    margin-bottom: 13px;
+    color: red;
+}

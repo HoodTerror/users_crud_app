@@ -1,0 +1,45 @@
+﻿table, tr, th, td {
+    border: 1px solid white;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    padding: 10px 0;
+    font-size: 14px;
+}
+
+th:first-child, td:first-child {
+    width: 3.7%;
+}
+
+th:not(:first-child), td:not(:first-child) {
+    width: 10.7%;
+}
+
+th {
+    background-color: darkslategray;
+}
+
+td {
+    text-align: center;
+}
+
+a {
+    color: lightslategray;
+    font-size: 13px;
+}
+
+input {
+    margin-bottom: 15px;
+    padding: 5px;
+    border: none;
+    outline: none;
+    width: 200px;
+    background-color: black;
+    color: white;
+    font-size: 1.1em;
+}
