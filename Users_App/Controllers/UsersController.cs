@@ -60,6 +60,7 @@ namespace Users_App.Controllers
             return View(userViewList);
         }
 
+        [Route("register")]
         public ViewResult Register()
         {
             var userView = new UsersViewModel();
@@ -93,21 +94,29 @@ namespace Users_App.Controllers
                 return View(entity);
         }
 
-        public ViewResult Edit(int id)
+        [Route("edit/{id:int}")]
+        public ActionResult Edit(int id)
         {
-            var user = unitOfWork.Users.GetById(id);
-
-            var userView = new UsersViewModel()
+            try
             {
-                UserId = user.UserId,
-                Password = user.Password,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                GenderId = user.GenderId,
-                MembershipId = user.MembershipId,
-            };
+                var user = unitOfWork.Users.GetById(id);
 
-            return View(userView);
+                var userView = new UsersViewModel()
+                {
+                    UserId = user.UserId,
+                    Password = user.Password,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    GenderId = user.GenderId,
+                    MembershipId = user.MembershipId,
+                };
+
+                return View(userView);
+            }
+            catch
+            {
+                return HttpNotFound();
+            }
         }
 
         [HttpPost]
@@ -136,14 +145,22 @@ namespace Users_App.Controllers
                 return View(entity);
         }
 
-        public RedirectToRouteResult Remove(int id)
+        [Route("remove/{id:int}")]
+        public ActionResult Remove(int id)
         {
-            var user = unitOfWork.Users.GetById(id);
+            try
+            {
+                var user = unitOfWork.Users.GetById(id);
 
-            unitOfWork.Users.Remove(user);
-            unitOfWork.Commit();
+                unitOfWork.Users.Remove(user);
+                unitOfWork.Commit();
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return HttpNotFound();
+            }
         }
 
         public JsonResult UsernameRemoteCheck(string Username)
