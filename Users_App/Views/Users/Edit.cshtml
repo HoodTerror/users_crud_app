@@ -7,7 +7,8 @@
     ViewBag.MembershipList = UsersController.MembershipList();
 }
 
-<form action="@Url.Action("Edit", "Users")" method="POST" autocomplete="off">
+@using (Html.BeginForm("Edit", "Users", FormMethod.Post, new { autocomplete = "off" }))
+{
     <fieldset>
         <legend>Personal information:</legend>
         @Html.HiddenFor(m => m.UserId)
@@ -32,7 +33,7 @@
         @Html.ValidationMessageFor(m => m.MembershipId)<br />
         <input type="submit" value="Submit" />
     </fieldset>
-</form>
+}
 
 @section CSS{
     <link rel="stylesheet" href="~/Content/register-styles.css" />

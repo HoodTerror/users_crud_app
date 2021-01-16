@@ -18,6 +18,7 @@ namespace Users_App.Controllers
             unitOfWork = new UnitOfWork();
         }
 
+        [NonAction]
         public static IEnumerable<SelectListItem> MembershipList()
         {
             var membershipList = new List<SelectListItem>();
@@ -68,7 +69,7 @@ namespace Users_App.Controllers
             return View(userView);
         }
 
-        [HttpPost]
+        [Route("register")] [HttpPost]
         public ActionResult Register(UsersViewModel entity)
         {
             if (ModelState.IsValid)
@@ -97,10 +98,10 @@ namespace Users_App.Controllers
         [Route("edit/{id:int}")]
         public ActionResult Edit(int id)
         {
-            try
-            {
-                var user = unitOfWork.Users.GetById(id);
+            var user = unitOfWork.Users.GetById(id);
 
+            if (user != null)
+            {
                 var userView = new UsersViewModel()
                 {
                     UserId = user.UserId,
@@ -113,13 +114,11 @@ namespace Users_App.Controllers
 
                 return View(userView);
             }
-            catch
-            {
+            else
                 return HttpNotFound();
-            }
         }
 
-        [HttpPost]
+        [Route("edit/{id:int}")] [HttpPost]
         public ActionResult Edit(UsersViewModel entity)
         {
             if (ModelState.IsValidField("Password")
@@ -148,19 +147,17 @@ namespace Users_App.Controllers
         [Route("remove/{id:int}")]
         public ActionResult Remove(int id)
         {
-            try
-            {
-                var user = unitOfWork.Users.GetById(id);
+            var user = unitOfWork.Users.GetById(id);
 
+            if (user != null)
+            {
                 unitOfWork.Users.Remove(user);
                 unitOfWork.Commit();
 
                 return RedirectToAction("Index");
             }
-            catch
-            {
+            else
                 return HttpNotFound();
-            }
         }
 
         public JsonResult UsernameRemoteCheck(string Username)
