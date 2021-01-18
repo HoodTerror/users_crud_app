@@ -34,7 +34,7 @@
         @Html.RadioButtonFor(m => m.GenderId, 2)Female<br />
         @Html.ValidationMessageFor(m => m.GenderId)<br />
         Membership:<br />
-        @Html.DropDownListFor(m => m.MembershipId, new SelectList(ViewBag.MembershipList, "Value", "Text"), "Select Membership")<br />
+        @Html.DropDownListFor(m => m.MembershipId, new SelectList(ViewBag.MembershipList, "MembershipId", "Membership"), "Select Membership")<br />
         @Html.ValidationMessageFor(m => m.MembershipId)<br />
         <input type="submit" value="Submit" />
     </fieldset>

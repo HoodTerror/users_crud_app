@@ -19,18 +19,10 @@ namespace Users_App.Controllers
         }
 
         [NonAction]
-        public static IEnumerable<SelectListItem> MembershipList()
+        public static IEnumerable<Memberships> MembershipList()
         {
-            var membershipList = new List<SelectListItem>();
-            foreach (var u in new UnitOfWork().Memberships.GetAll())
-            {
-                membershipList.Add(new SelectListItem()
-                {
-                    Value = u.MembershipId.ToString(),
-                    Text = u.Membership
-                });
-            }
-            membershipList.Sort((x, y) => x.Value.CompareTo(y.Value));
+            var membershipList = new UsersController().unitOfWork.Memberships.GetAll().ToList();
+            membershipList.Sort((x, y) => x.MembershipId.CompareTo(y.MembershipId));
 
             return membershipList;
         }
