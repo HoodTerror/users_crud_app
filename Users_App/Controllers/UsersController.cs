@@ -21,14 +21,6 @@ namespace Users_App.Controllers
             unitOfWork = new UnitOfWork();
         }
 
-        [NonAction]
-        public static IEnumerable<Memberships> MembershipList()
-        {
-            var membershipList = new UsersController().unitOfWork.Memberships.GetAll().OrderBy(m => m.MembershipId);
-
-            return membershipList;
-        }
-
         public ViewResult Index()
         {
             var userList = unitOfWork.Users.GetAll();
