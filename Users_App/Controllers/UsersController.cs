@@ -12,6 +12,9 @@ namespace Users_App.Controllers
     public class UsersController : Controller
     {
         private readonly UnitOfWork unitOfWork;
+        
+        public static IEnumerable<Memberships> MembershipList { get; }
+            = new UsersController().unitOfWork.Memberships.GetAll().OrderBy(m => m.MembershipId);
 
         public UsersController()
         {
