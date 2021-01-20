@@ -21,8 +21,7 @@ namespace Users_App.Controllers
         [NonAction]
         public static IEnumerable<Memberships> MembershipList()
         {
-            var membershipList = new UsersController().unitOfWork.Memberships.GetAll().ToList();
-            membershipList.Sort((x, y) => x.MembershipId.CompareTo(y.MembershipId));
+            var membershipList = new UsersController().unitOfWork.Memberships.GetAll().OrderBy(m => m.MembershipId);
 
             return membershipList;
         }
