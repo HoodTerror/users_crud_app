@@ -12,50 +12,30 @@ namespace Users_App.Controllers
     public class UsersController : Controller
     {
         private readonly UnitOfWork unitOfWork;
-        
-        public static IEnumerable<Memberships> MembershipList { get; }
-            = new UsersController().unitOfWork.Memberships.GetAll().OrderBy(m => m.MembershipId);
+        private readonly IEnumerable<Memberships> membershipList;
 
         public UsersController()
         {
             unitOfWork = new UnitOfWork();
+            membershipList = unitOfWork.Memberships.GetAll().OrderBy(m => m.MembershipId);
         }
 
         public ViewResult Index()
         {
-            var userList = unitOfWork.Users.GetAll();
-            var userViewList = new List<UsersViewModel>();
-
-            foreach (var u in userList)
-            {
-                userViewList.Add(new UsersViewModel()
-                {
-                    UserId = u.UserId,
-                    Username = u.Username,
-                    Email = u.Email,
-                    Password = u.Password,
-                    FirstName = u.FirstName,
-                    LastName = u.LastName,
-                    GenderId = u.GenderId,
-                    MembershipId = u.MembershipId,
-                    DateCreated = u.DateCreated,
-                    Genders = u.Genders,
-                    Memberships = u.Memberships
-                });
-            }
-
-            return View(userViewList);
+            return View();
         }
-
+                
         [Route("register")]
         public ViewResult Register()
         {
+            ViewBag.MembershipList = membershipList;
             var userView = new UsersViewModel();
 
             return View(userView);
         }
 
-        [Route("register")] [HttpPost]
+        [Route("register")]
+        [HttpPost]
         public ActionResult Register(UsersViewModel entity)
         {
             if (ModelState.IsValid)
@@ -84,6 +64,7 @@ namespace Users_App.Controllers
         [Route("edit/{id:int}")]
         public ActionResult Edit(int id)
         {
+            ViewBag.MembershipList = membershipList;
             var user = unitOfWork.Users.GetById(id);
 
             if (user != null)
@@ -104,7 +85,8 @@ namespace Users_App.Controllers
                 return HttpNotFound();
         }
 
-        [Route("edit/{id:int}")] [HttpPost]
+        [Route("edit/{id:int}")]
+        [HttpPost]
         public ActionResult Edit(UsersViewModel entity)
         {
             if (ModelState.IsValidField("Password")
@@ -131,16 +113,40 @@ namespace Users_App.Controllers
         }
 
         [Route("remove/{id:int}")]
-        public ActionResult Remove(int id)
+        public ActionResult LoadUsers(int id)
         {
             var user = unitOfWork.Users.GetById(id);
 
-            if (user != null)
+            if (id == default || user != null)
             {
-                unitOfWork.Users.Remove(user);
-                unitOfWork.Commit();
+                if (id != default)
+                {
+                    unitOfWork.Users.Remove(user);
+                    unitOfWork.Commit();
+                }
 
-                return RedirectToAction("Index");
+                var userList = unitOfWork.Users.GetAll();
+                var userViewList = new List<UsersViewModel>();
+
+                foreach (var u in userList)
+                {
+                    userViewList.Add(new UsersViewModel()
+                    {
+                        UserId = u.UserId,
+                        Username = u.Username,
+                        Email = u.Email,
+                        Password = u.Password,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        GenderId = u.GenderId,
+                        MembershipId = u.MembershipId,
+                        DateCreated = u.DateCreated,
+                        Genders = u.Genders,
+                        Memberships = u.Memberships
+                    });
+                }
+
+                return PartialView("_TableBody", userViewList);
             }
             else
                 return HttpNotFound();
@@ -162,6 +168,7 @@ namespace Users_App.Controllers
 
             return Json(check, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult EmailRemoteCheck(string Email)
         {
             var userList = unitOfWork.Users.GetAll();

@@ -1,49 +1,35 @@
-﻿@using Users_App.Models
-@model IEnumerable<UsersViewModel>
-
-@{
+﻿@{
     ViewBag.Title = "All Users";
 }
 
-<p><a href="@Url.Action("Register", "Users")">Add New User</a></p>
+<p><a href="@Url.Action("Register")">Add New User</a></p>
 <input type="text" max="30" placeholder="Search users..." />
 <table>
-    <tr>
-        <th>Id</th>
-        <th>Username</th>
-        <th>E-Mail</th>
-        <th>Password</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Gender</th>
-        <th>Membership</th>
-        <th>Date Created</th>
-        <th></th>
-    </tr>
-    @foreach (var m in Model)
-    {
+    <thead>
         <tr>
-            <td>@m.UserId</td>
-            <td>@m.Username</td>
-            <td>@m.Email</td>
-            <td>@m.Password</td>
-            <td>@m.FirstName</td>
-            <td>@m.LastName</td>
-            <td>@m.Genders.Gender</td>
-            <td>@m.Memberships.Membership</td>
-            <td>@m.DateCreated</td>
-            <td>
-                <a href="@Url.Action("Edit", "Users", new { id = m.UserId })">Edit</a>&nbsp;&nbsp;&nbsp;
-                <a class="delete" href="@Url.Action("Remove", "Users", new { id = m.UserId })">Remove</a>
-            </td>
+            <th>Id</th>
+            <th>Username</th>
+            <th>E-Mail</th>
+            <th>Password</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Gender</th>
+            <th>Membership</th>
+            <th>Date Created</th>
+            <th></th>
         </tr>
-    }
+    </thead>
+    <tbody id="tableBody">
+        @{Html.RenderAction("LoadUsers", new { id = default(int) });}
+    </tbody>
 </table>
+<img id="loader" src="~/Content/loader.gif" alt="Loader" />
 
 @section CSS{
     <link rel="stylesheet" href="~/Content/index-styles.css" />
 }
 
 @section JavaScript{
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js" defer></script>
     <script src="~/Scripts/index-scripts.js" defer></script>
 }

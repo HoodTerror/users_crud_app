@@ -1,0 +1,29 @@
+﻿@using Users_App.Models
+@model IEnumerable<UsersViewModel>
+
+@{
+    var ajaxOptions = new AjaxOptions()
+    {
+        LoadingElementId = "loader",
+        UpdateTargetId = "tableBody"
+    };
+}
+
+@foreach (var m in Model)
+{
+    <tr>
+        <td>@m.UserId</td>
+        <td>@m.Username</td>
+        <td>@m.Email</td>
+        <td>@m.Password</td>
+        <td>@m.FirstName</td>
+        <td>@m.LastName</td>
+        <td>@m.Genders.Gender</td>
+        <td>@m.Memberships.Membership</td>
+        <td>@m.DateCreated</td>
+        <td>
+            <a href="@Url.Action("Edit", new { id = m.UserId })">Edit</a>&nbsp;&nbsp;&nbsp;
+            @Ajax.ActionLink("Remove", "LoadUsers", new { id = m.UserId }, ajaxOptions, new { @class = "delete" })
+        </td>
+    </tr>
+}

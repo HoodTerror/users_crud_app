@@ -1,31 +1,34 @@
-﻿const removeLink = document.querySelectorAll(".delete");
-
-for (let i = 0; i < removeLink.length; i++) {
-    removeLink[i].addEventListener("click", function (event) {
-        const tableRows = document.querySelectorAll("table tr");
-        const username = tableRows[i + 1].querySelector("td:nth-child(2)").innerHTML;
-
-        const check = window.confirm("Are you sure you want to remove " + username + "?");
-
-        if (!check) {
-            event.preventDefault();
-        }
-    });
-}
-
+﻿// Search records:
 const searchbox = document.querySelector("input");
 
 searchbox.addEventListener("keyup", function () {
-    const tableRows = document.querySelectorAll("table tr");
+    const tableRows = document.querySelectorAll("table tbody tr");
 
-    for (let i = 1; i < tableRows.length; i++) {
+    for (let i = 0; i < tableRows.length; i++) {
         const inputFilter = searchbox.value.toUpperCase();
         const username = tableRows[i].querySelector("td:nth-child(2)").innerHTML.toUpperCase();
 
-        if (username.search(inputFilter) === -1) {
+        if (username.startsWith(inputFilter, 0) === false) {
             tableRows[i].style.display = "none";
         } else {
             tableRows[i].style.display = "table-row";
         }
     }
 });
+
+// Remove records check:
+const ajaxLinks = document.querySelectorAll(".delete");
+
+for (let i = 0; i < ajaxLinks.length; i++) {
+    ajaxLinks[i].addEventListener("click", function (event) {
+        const records = document.querySelectorAll("table tbody tr");
+        const username = records[i].querySelector("td:nth-child(2)").innerHTML;
+
+        const check = window.confirm(`Are you sure you want to remove ${username}?`);
+
+        if (!check) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+        }
+    });
+}

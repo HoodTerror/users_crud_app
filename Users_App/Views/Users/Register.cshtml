@@ -1,5 +1,4 @@
-﻿@using Users_App.Controllers;
-@using Users_App.Models;
+﻿@using Users_App.Models;
 @model UsersViewModel
 
 @{
@@ -33,7 +32,7 @@
         @Html.RadioButtonFor(m => m.GenderId, 2)Female<br />
         @Html.ValidationMessageFor(m => m.GenderId)<br />
         Membership:<br />
-        @Html.DropDownListFor(m => m.MembershipId, new SelectList(UsersController.MembershipList, "MembershipId", "Membership"), "Select Membership")<br />
+        @Html.DropDownListFor(m => m.MembershipId, new SelectList(ViewBag.MembershipList, "MembershipId", "Membership"), "Select Membership")<br />
         @Html.ValidationMessageFor(m => m.MembershipId)<br />
         <input type="submit" value="Submit" />
     </fieldset>
@@ -44,7 +43,6 @@
 }
 
 @section JavaScript{
-    <script src="~/Scripts/jquery-3.5.1.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js" defer></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js" defer></script>
 }

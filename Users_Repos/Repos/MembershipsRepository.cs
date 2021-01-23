@@ -12,7 +12,6 @@ namespace Users_Repos.Repos
         public MembershipsRepository(UsersDbContext dbContext)
             : base (dbContext)
         {
-
         }
     }
 }
