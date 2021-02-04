@@ -34,8 +34,7 @@ namespace Users_App.Controllers
             return View(userView);
         }
 
-        [Route("register")]
-        [HttpPost]
+        [Route("register"), HttpPost]
         public ActionResult Register(UsersViewModel entity)
         {
             if (ModelState.IsValid)
@@ -85,8 +84,7 @@ namespace Users_App.Controllers
                 return HttpNotFound();
         }
 
-        [Route("edit/{id:int}")]
-        [HttpPost]
+        [Route("edit/{id:int}"), HttpPost]
         public ActionResult Edit(UsersViewModel entity)
         {
             if (ModelState.IsValidField("Password")

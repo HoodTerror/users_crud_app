@@ -49,6 +49,7 @@ namespace Users_App.Models
         public DateTime DateCreated { get; set; }
 
         public Genders Genders { get; set; }
+
         public Memberships Memberships { get; set; }
     }
 }
